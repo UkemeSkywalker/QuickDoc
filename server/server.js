@@ -1,4 +1,4 @@
-const { Socket } = require("socket.io")
+const { socket } = require("socket.io")
 
 const io = require("socket.io")(3001, {
   cors:{
@@ -7,6 +7,9 @@ const io = require("socket.io")(3001, {
   }
 })
 
-io.on("connection", Socket => { 
-  console.log("connected");
+io.on("connection", socket => { 
+  socket.on('send-changes', delta => {
+    socket.broadcast.emit("recieve-changes", delta)
+  })
+  
 })
